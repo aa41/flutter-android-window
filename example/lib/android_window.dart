@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
         clipBehavior: Clip.hardEdge,
         borderRadius: const BorderRadius.all(Radius.circular(8)),
         child: Scaffold(
-          backgroundColor: Colors.grey.withOpacity(0.8),
+          backgroundColor: Colors.transparent,
           body: Padding(
             padding: const EdgeInsets.all(8),
             child: Column(

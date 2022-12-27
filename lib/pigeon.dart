@@ -33,6 +33,7 @@ abstract class AndroidWindowApi {
   void dragEnd();
   void close();
   void launchApp();
+  Map position();
 }
 
 @FlutterApi()

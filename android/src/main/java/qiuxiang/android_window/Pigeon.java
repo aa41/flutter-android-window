@@ -277,6 +277,7 @@ public class Pigeon {
     @NonNull void dragEnd();
     @NonNull void close();
     @NonNull void launchApp();
+    @NonNull Map<Object, Object> position();
 
     /** The codec used by AndroidWindowApi. */
     static MessageCodec<Object> getCodec() {
@@ -441,6 +442,25 @@ public class Pigeon {
             try {
               api.launchApp();
               wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.AndroidWindowApi.position", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              Map<Object, Object> output = api.position();
+              wrapped.put("result", output);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));

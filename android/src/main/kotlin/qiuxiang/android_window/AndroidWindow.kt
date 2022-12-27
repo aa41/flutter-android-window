@@ -156,6 +156,13 @@ class AndroidWindow(
         app!!.location = Pair(layoutParams.x, layoutParams.y)
 
     }
+
+    fun position(): MutableMap<Any, Any> {
+        val map = mutableMapOf<Any, Any>()
+        map['x'] = layoutParams.x
+        map['y'] = layoutParams.y
+        return map
+    }
 }
 
 val AndroidWindow.app: AndroidWindowApplication?
