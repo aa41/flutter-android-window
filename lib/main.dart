@@ -16,13 +16,13 @@ final _api = MainApi();
 ///   runApp(const AndroidWindowApp());
 /// }
 /// ```
-void open({
+Future<void> open({
   String entryPoint = 'androidWindow',
   Size size = const Size(400, 600),
   Offset position = const Offset(0, 0),
   bool focusable = false,
-}) {
-  _api.open(
+}) async {
+  return _api.open(
     entryPoint,
     size.width.toInt(),
     size.height.toInt(),
@@ -33,8 +33,8 @@ void open({
 }
 
 /// Close android window.
-void close() {
-  _api.close();
+Future<void> close() async {
+  return _api.close();
 }
 
 /// Checks if this app can draw on top of other apps.

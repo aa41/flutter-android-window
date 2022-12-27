@@ -59,6 +59,7 @@ class AndroidWindow(
     windowManager.defaultDisplay.getMetrics(metrics)
     flutterView = FlutterView(inflater.context, FlutterSurfaceView(inflater.context, true))
     flutterView.attachToFlutterEngine(engine)
+
     @Suppress("ClickableViewAccessibility")
     flutterView.setOnTouchListener { _, event ->
       when (event.action) {
@@ -132,7 +133,8 @@ class AndroidWindow(
   }
 
   fun setPosition(x: Int, y: Int) {
-    layoutParams.x = min(max(0, x), metrics.widthPixels - layoutParams.width)
+   // layoutParams.x = min(max(0, x), metrics.widthPixels - layoutParams.width)
+    layoutParams.x = metrics.widthPixels - layoutParams.width
     layoutParams.y = min(max(0, y), metrics.heightPixels - layoutParams.height)
     windowManager.updateViewLayout(rootView, layoutParams)
   }
