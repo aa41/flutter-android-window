@@ -71,7 +71,7 @@ class AndroidWindow(
                 MotionEvent.ACTION_MOVE -> {
                     if (dragging) {
                         setPosition(
-                            initialX + ((event.rawX - startX) / 3.0).roundToInt(),
+                            initialX + ((event.rawX - startX) / 5.0).roundToInt(),
                             initialY + (event.rawY - startY).roundToInt()
                         )
                     } else {
