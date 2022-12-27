@@ -10,5 +10,6 @@ open class AndroidWindowApplication : FlutterApplication() {
   var mainApi: MainApi? = null
   var activity: Activity? = null
   var running = false
+  var location:Pair<Int,Int> = Pair(0,0)
 }
 

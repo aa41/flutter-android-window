@@ -153,6 +153,8 @@ class AndroidWindow(
         }
         layoutParams.y = min(max(0, y), metrics.heightPixels - layoutParams.height)
         windowManager.updateViewLayout(rootView, layoutParams)
+        app!!.location = Pair(layoutParams.x, layoutParams.y)
+
     }
 }
 

@@ -37,6 +37,7 @@ public class Pigeon {
     void requestPermission(Result<Void> result);
     void isRunning(Result<Boolean> result);
     void post(Map<Object, Object> message, Result<Map<Object, Object>> result);
+    void position(Result<Map<Object, Object>> result);
     @NonNull void open(String entry, Long width, Long height, Long x, Long y, Boolean focusable);
     @NonNull void close();
 
@@ -158,6 +159,35 @@ public class Pigeon {
               };
 
               api.post(messageArg, resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.MainApi.position", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              Result<Map<Object, Object>> resultCallback = new Result<Map<Object, Object>>() {
+                public void success(Map<Object, Object> result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.position(resultCallback);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));

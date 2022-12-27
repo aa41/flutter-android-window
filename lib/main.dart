@@ -47,6 +47,10 @@ Future<bool> isRunning() {
   return _api.isRunning();
 }
 
+Future<Object?> position() async {
+  return await _api.position();
+}
+
 /// Request overlay permission.
 ///
 /// Show screen for controlling which apps can draw on top of other apps.
