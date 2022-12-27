@@ -8,6 +8,7 @@ final _api = AndroidWindowApi();
 /// Android window widget.
 class AndroidWindow extends StatefulWidget {
   final Widget child;
+
   const AndroidWindow({required this.child, Key? key}) : super(key: key);
 
   @override
@@ -33,6 +34,10 @@ class AndroidWindow extends StatefulWidget {
   /// Close android window.
   static void close() {
     _api.close();
+  }
+
+  static Future<Map> position() async {
+    return _api.position();
   }
 
   /// Launch main app.
