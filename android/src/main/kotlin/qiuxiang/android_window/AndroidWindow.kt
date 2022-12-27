@@ -146,7 +146,7 @@ class AndroidWindow(
     }
 
     fun setPosition(x: Int, y: Int, isDragEnd: Boolean = false) {
-        if (isDragEnd) {
+        if (!isDragEnd) {
             val xx = (x / 3.0).toInt()
             layoutParams.x = min(max(0, xx), metrics.widthPixels - layoutParams.width)
         } else {
