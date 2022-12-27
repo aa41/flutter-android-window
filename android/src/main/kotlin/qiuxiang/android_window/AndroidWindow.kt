@@ -66,7 +66,7 @@ class AndroidWindow(
         flutterView.attachToFlutterEngine(engine)
 
         @Suppress("ClickableViewAccessibility")
-        rootView.findViewById<LinearLayout>(R.id.floating_window).setOnTouchListener { _, event ->
+        flutterView.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_MOVE -> {
                     if (dragging) {
