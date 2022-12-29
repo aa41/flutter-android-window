@@ -71,7 +71,7 @@ class AndroidWindow(
                 MotionEvent.ACTION_MOVE -> {
                     if (dragging) {
                         setPosition(
-                            initialX + ((event.rawX - startX) / 5.0).roundToInt(),
+                            initialX + ((event.rawX - startX) / 4.0).roundToInt(),
                             initialY + (event.rawY - startY).roundToInt()
                         )
                     } else {
@@ -149,7 +149,15 @@ class AndroidWindow(
         if (!isDragEnd) {
             layoutParams.x = min(max(0, x), metrics.widthPixels - layoutParams.width)
         } else {
-            layoutParams.x = metrics.widthPixels - layoutParams.width
+            if (x <= metrics.widthPixels - 40 && x >= metrics.widthPixels / 2) {
+                layoutParams.x = 0
+            } else if (x >= 40 && x <= metrics.widthPixels / 2) {
+                layoutParams.x = metrics.widthPixels - layoutParams.width
+            } else if (x >= metrics.widthPixels - 40) {
+                layoutParams.x = metrics.widthPixels - layoutParams.width
+            } else {
+                layoutParams.x = 0
+            }
         }
         layoutParams.y = min(max(0, y), metrics.heightPixels - layoutParams.height)
         windowManager.updateViewLayout(rootView, layoutParams)
