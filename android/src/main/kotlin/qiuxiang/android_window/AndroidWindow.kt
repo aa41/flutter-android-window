@@ -84,7 +84,7 @@ class AndroidWindow(
                 MotionEvent.ACTION_UP -> {
                     setPosition(
                         initialX + (event.rawX - startX).roundToInt(),
-                        initialY + (event.rawY - startY).roundToInt(), true
+                        initialY + (event.rawY - startY).roundToInt(), true, event.rawX
                     )
                 }
                 MotionEvent.ACTION_DOWN -> {
@@ -145,11 +145,15 @@ class AndroidWindow(
         windowManager.updateViewLayout(rootView, layoutParams)
     }
 
-    fun setPosition(x: Int, y: Int, isDragEnd: Boolean = false) {
+    fun setPosition(x: Int, y: Int, isDragEnd: Boolean = false, rawX: Float = -1.0f) {
         if (!isDragEnd) {
             layoutParams.x = min(max(0, x), metrics.widthPixels - layoutParams.width)
         } else {
-            layoutParams.x = metrics.widthPixels - layoutParams.width
+            if (rawX > metrics.widthPixels / 2) {
+                layoutParams.x = metrics.widthPixels - layoutParams.width
+            } else {
+                layoutParams.x = 0
+            }
         }
         layoutParams.y = min(max(0, y), metrics.heightPixels - layoutParams.height)
         windowManager.updateViewLayout(rootView, layoutParams)
