@@ -72,12 +72,13 @@ class AndroidWindow(
 
         @Suppress("ClickableViewAccessibility")
         flutterView.setOnTouchListener { _, event ->
+            val scaledTouchSlop = ViewConfiguration.get(flutterView.context).scaledTouchSlop
             when (event.action) {
                 MotionEvent.ACTION_MOVE -> {
                     nowX = event.rawX
                     nowY = event.rawY
                     if (dragging) {
-                        if (abs((nowY - lastY)) > ViewConfiguration.get(flutterView.context).scaledTouchSlop) {
+                        if (abs((nowY - lastY)) > scaledTouchSlop || abs((nowX - lastX)) > scaledTouchSlop) {
                             setPosition(
                                 initialX + ((event.rawX - startX) / 5.0).roundToInt(),
                                 initialY + (event.rawY - startY).roundToInt()
@@ -94,7 +95,7 @@ class AndroidWindow(
                 MotionEvent.ACTION_UP -> {
                     nowX = event.rawX
                     nowY = event.rawY
-                    if (abs((nowY - lastY)) > ViewConfiguration.get(flutterView.context).scaledTouchSlop) {
+                    if (abs((nowY - lastY)) > scaledTouchSlop || abs((nowX - lastX)) > scaledTouchSlop) {
                         setPosition(
                             initialX + (event.rawX - startX).roundToInt(),
                             initialY + (event.rawY - startY).roundToInt(), true, event.rawX
