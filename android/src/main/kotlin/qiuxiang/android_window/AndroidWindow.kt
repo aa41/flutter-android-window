@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import io.flutter.embedding.android.FlutterSurfaceView
 import io.flutter.embedding.android.FlutterView
 import io.flutter.embedding.engine.FlutterEngine
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -24,6 +25,10 @@ class AndroidWindow(
 ) {
     private var startX = 0f
     private var startY = 0f
+    private var nowX = 0f
+    private var nowY = 0f
+    private var lastX = 0f
+    private var lastY = 0f
     private var initialX = 0
     private var initialY = 0
     private var dragging = false
@@ -69,11 +74,16 @@ class AndroidWindow(
         flutterView.setOnTouchListener { _, event ->
             when (event.action) {
                 MotionEvent.ACTION_MOVE -> {
+                    nowX = event.rawX
+                    nowY = event.rawY
                     if (dragging) {
-                        setPosition(
-                            initialX + ((event.rawX - startX) / 5.0).roundToInt(),
-                            initialY + (event.rawY - startY).roundToInt()
-                        )
+                        if (abs((nowY - lastY)) > ViewConfiguration.get(flutterView.context).scaledTouchSlop) {
+                            setPosition(
+                                initialX + ((event.rawX - startX) / 5.0).roundToInt(),
+                                initialY + (event.rawY - startY).roundToInt()
+                            )
+                            lastY = nowY
+                        }
                     } else {
                         startX = event.rawX
                         startY = event.rawY
@@ -86,12 +96,16 @@ class AndroidWindow(
                         initialX + (event.rawX - startX).roundToInt(),
                         initialY + (event.rawY - startY).roundToInt(), true, event.rawX
                     )
+
+
                 }
                 MotionEvent.ACTION_DOWN -> {
                     if (focusable) {
                         layoutParams.flags =
                             layoutParams.flags and WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE.inv()
                         windowManager.updateViewLayout(rootView, layoutParams)
+                        lastX = event.rawX
+                        lastY = event.rawY
                     }
                 }
             }
