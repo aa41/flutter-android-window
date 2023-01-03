@@ -92,10 +92,15 @@ class AndroidWindow(
                     }
                 }
                 MotionEvent.ACTION_UP -> {
-                    setPosition(
-                        initialX + (event.rawX - startX).roundToInt(),
-                        initialY + (event.rawY - startY).roundToInt(), true, event.rawX
-                    )
+                    nowX = event.rawX
+                    nowY = event.rawY
+                    if (abs((nowY - lastY)) > ViewConfiguration.get(flutterView.context).scaledTouchSlop) {
+                        setPosition(
+                            initialX + (event.rawX - startX).roundToInt(),
+                            initialY + (event.rawY - startY).roundToInt(), true, event.rawX
+                        )
+                        lastY = nowY
+                    }
 
 
                 }
